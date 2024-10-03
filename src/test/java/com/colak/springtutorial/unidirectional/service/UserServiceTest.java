@@ -19,7 +19,6 @@ class UserServiceTest {
     @Autowired
     private UserService userService;
 
-    // When user is saved DataIntegrityViolationException is thrown because Role is not saved
     @Test
     void saveUser() {
         User user = new User();
@@ -28,20 +27,10 @@ class UserServiceTest {
         Set<Role> roleSet = Set.of(new Role("role1"));
         user.setAuthorities(roleSet);
 
-        assertThatThrownBy(() -> userService.save(user))
-                .isInstanceOf(DataIntegrityViolationException.class);
-    }
-
-    // When user is saved roles are also saved
-    @Test
-    void saveUserWithRoles() {
-        User user = new User();
-        user.setEmail("test@gmail.com");
-        user.setPassword("password");
-
-        User savedUser = userService.saveUserWithRoles(user, List.of("role2"));
+        User savedUser = userService.save(user);
         for (Role role : savedUser.getAuthorities()) {
             assertThat(role.getId()).isNotNull();
         }
     }
+
 }
