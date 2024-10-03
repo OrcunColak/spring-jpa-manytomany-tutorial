@@ -24,12 +24,12 @@ class UserServiceTest {
         User user = new User();
         user.setEmail("test@gmail.com");
         user.setPassword("password");
-        Set<Role> roleSet = Set.of(new Role("role1"));
+        Set<Role> roleSet = Set.of(new Role("ROLE_ADMIN"));
         user.setAuthorities(roleSet);
 
         User savedUser = userService.save(user);
         for (Role role : savedUser.getAuthorities()) {
-            assertThat(role.getId()).isNotNull();
+            assertThat(role.getId()).isEqualTo(1);
         }
     }
 
